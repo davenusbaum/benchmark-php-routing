@@ -40,3 +40,12 @@ new Benchmark\FastRoute\GroupPosBased_Cached_Benchmark;
 
 new Benchmark\FastRoute\MarkBased_Benchmark;
 new Benchmark\FastRoute\MarkBased_Cached_Benchmark;
+
+/*
+|--------------------------------------------------------------------------
+| Jaunt Benchmarks
+|--------------------------------------------------------------------------
+*/
+
+new Benchmark\Jaunt\Jaunt_Benchmark;
+new Benchmark\Jaunt\CachedJaunt_Benchmark;
