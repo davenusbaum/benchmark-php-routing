@@ -51,6 +51,7 @@ class Jaunt_Benchmark extends BenchmarkAbstract
         {
             $name = preg_replace('#\W+#', '_', $route);
             $name = trim($name, '_');
+            $route = str_replace(['{','}'],[':',''],$route);
 
             /*
             * $routes->add('workspaces', new Route('/workspaces'));
