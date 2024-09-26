@@ -18,11 +18,13 @@ Here are the packages that are benchmakred:
 
 * Symfony Routing [symfony/routing](https://github.com/symfony/routing)
 * FastRoute [nikic/FastRoute](https://github.com/nikic/FastRoute)
+* Jaunt [davenusbaum/jaunt](https://github.com/davenusbaum/jaunt)
 
 So far these are the most popular ones: **Symfony Routing** component is used
 not only by Symfony but by **Laravel** as well, and **FastRoute** is used by
 other popular solutions such as the [Slim](https://github.com/slimphp/Slim)
-framework and [League\Route](https://github.com/thephpleague/route).
+framework and [League\Route](https://github.com/thephpleague/route). Jaunt
+was added as an example of a tree based router.
 
 # Benchmarks
 
@@ -131,6 +133,110 @@ You can see the list of paths in [routes/provider/avatax](routes/provider/avatax
 Here are the results from the quick benchmarks executed by Github Actions:
 
 https://github.com/kktsvetkov/benchmark-php-routing/actions
+
+## PHP 8.1
+```
++----------------------------------+--------------+-----------------+---------+------------+
+| Benchmark                        | Case         | Provider Routes | Seconds | Per Second |
++----------------------------------+--------------+-----------------+---------+------------+
+| FastRoute\MarkBased_Cached       | benchSetup   | 256 (avatax)    | 0.06506 | 3934.89309 |
+| FastRoute\GroupPosBased_Cached   | benchSetup   | 256 (avatax)    | 0.06835 | 3745.48906 |
+| FastRoute\MarkBased_Cached       | benchAll     | 256 (avatax)    | 0.06840 | 3742.85174 |
+| FastRoute\GroupCountBased_Cached | benchSetup   | 256 (avatax)    | 0.06842 | 3741.48233 |
+| FastRoute\CharCountBased_Cached  | benchSetup   | 256 (avatax)    | 0.06911 | 3704.19296 |
+| FastRoute\GroupCountBased_Cached | benchAll     | 256 (avatax)    | 0.07053 | 3629.76250 |
+| FastRoute\MarkBased_Cached       | benchSetup   | 178 (bitbucket) | 0.04915 | 3621.86603 |
+| FastRoute\CharCountBased_Cached  | benchAll     | 256 (avatax)    | 0.07118 | 3596.47442 |
+| FastRoute\GroupPosBased_Cached   | benchAll     | 256 (avatax)    | 0.07133 | 3588.90122 |
+| FastRoute\MarkBased_Cached       | benchLast    | 256 (avatax)    | 0.07186 | 3562.53798 |
+| FastRoute\MarkBased_Cached       | benchAll     | 178 (bitbucket) | 0.05033 | 3536.44564 |
+| FastRoute\MarkBased_Cached       | benchLongest | 256 (avatax)    | 0.07404 | 3457.59347 |
+| FastRoute\GroupPosBased_Cached   | benchSetup   | 178 (bitbucket) | 0.05170 | 3442.86885 |
+| FastRoute\GroupCountBased_Cached | benchSetup   | 178 (bitbucket) | 0.05177 | 3438.09658 |
+| FastRoute\CharCountBased_Cached  | benchSetup   | 178 (bitbucket) | 0.05223 | 3407.68414 |
+| FastRoute\CharCountBased_Cached  | benchAll     | 178 (bitbucket) | 0.05288 | 3366.04814 |
+| FastRoute\GroupPosBased_Cached   | benchLongest | 256 (avatax)    | 0.07642 | 3349.94719 |
+| FastRoute\CharCountBased_Cached  | benchLongest | 256 (avatax)    | 0.07659 | 3342.64712 |
+| FastRoute\GroupPosBased_Cached   | benchAll     | 178 (bitbucket) | 0.05346 | 3329.83712 |
+| FastRoute\MarkBased_Cached       | benchLongest | 178 (bitbucket) | 0.05425 | 3281.22123 |
+| FastRoute\GroupCountBased_Cached | benchAll     | 178 (bitbucket) | 0.05439 | 3272.47672 |
+| FastRoute\CharCountBased_Cached  | benchLast    | 256 (avatax)    | 0.07898 | 3241.44560 |
+| Jaunt\CachedJaunt                | benchLast    | 178 (bitbucket) | 0.05505 | 3233.24821 |
+| FastRoute\GroupCountBased_Cached | benchLast    | 256 (avatax)    | 0.07979 | 3208.22574 |
+| FastRoute\GroupPosBased_Cached   | benchLast    | 256 (avatax)    | 0.07987 | 3205.24731 |
+| Jaunt\CachedJaunt                | benchSetup   | 178 (bitbucket) | 0.05581 | 3189.21691 |
+| Jaunt\CachedJaunt                | benchLongest | 178 (bitbucket) | 0.05657 | 3146.71355 |
+| FastRoute\MarkBased_Cached       | benchLast    | 178 (bitbucket) | 0.05665 | 3142.03875 |
+| FastRoute\GroupCountBased_Cached | benchLongest | 256 (avatax)    | 0.08159 | 3137.67850 |
+| Jaunt\CachedJaunt                | benchAll     | 178 (bitbucket) | 0.05700 | 3123.07256 |
+| FastRoute\GroupPosBased_Cached   | benchLongest | 178 (bitbucket) | 0.05827 | 3054.94632 |
+| FastRoute\CharCountBased_Cached  | benchLongest | 178 (bitbucket) | 0.05911 | 3011.13208 |
+| FastRoute\GroupCountBased_Cached | benchLast    | 178 (bitbucket) | 0.06203 | 2869.80731 |
+| FastRoute\CharCountBased_Cached  | benchLast    | 178 (bitbucket) | 0.06236 | 2854.43528 |
+| FastRoute\GroupPosBased_Cached   | benchLast    | 178 (bitbucket) | 0.06250 | 2848.18470 |
+| FastRoute\GroupCountBased_Cached | benchLongest | 178 (bitbucket) | 0.06513 | 2733.16583 |
+| Jaunt\Jaunt                      | benchLast    | 178 (bitbucket) | 0.06951 | 2560.86229 |
+| Jaunt\Jaunt                      | benchSetup   | 178 (bitbucket) | 0.07033 | 2530.85185 |
+| Jaunt\Jaunt                      | benchLongest | 178 (bitbucket) | 0.07118 | 2500.69874 |
+| Symfony\UrlMatcher               | benchSetup   | 178 (bitbucket) | 0.07183 | 2478.14607 |
+| Jaunt\Jaunt                      | benchAll     | 178 (bitbucket) | 0.07255 | 2453.41388 |
+| Jaunt\CachedJaunt                | benchLongest | 256 (avatax)    | 0.11288 | 2267.81385 |
+| Jaunt\CachedJaunt                | benchSetup   | 256 (avatax)    | 0.11321 | 2261.34699 |
+| Jaunt\CachedJaunt                | benchAll     | 256 (avatax)    | 0.11456 | 2234.62043 |
+| Jaunt\CachedJaunt                | benchLast    | 256 (avatax)    | 0.11493 | 2227.44444 |
+| Symfony\UrlMatcher               | benchAll     | 178 (bitbucket) | 0.08753 | 2033.61301 |
+| Jaunt\Jaunt                      | benchLongest | 256 (avatax)    | 0.14476 | 1768.41941 |
+| Jaunt\Jaunt                      | benchSetup   | 256 (avatax)    | 0.14698 | 1741.77821 |
+| Symfony\UrlMatcher               | benchSetup   | 256 (avatax)    | 0.14783 | 1731.76344 |
+| Jaunt\Jaunt                      | benchLast    | 256 (avatax)    | 0.14871 | 1721.52913 |
+| Jaunt\Jaunt                      | benchAll     | 256 (avatax)    | 0.15084 | 1697.11914 |
+| Symfony\UrlMatcher               | benchAll     | 256 (avatax)    | 0.15895 | 1610.59985 |
+| Symfony\CompiledUrlMatcher       | benchAll     | 178 (bitbucket) | 0.11151 | 1596.28590 |
+| Symfony\CompiledUrlMatcher       | benchLast    | 178 (bitbucket) | 0.11202 | 1589.05923 |
+| Symfony\CompiledUrlMatcher       | benchLongest | 178 (bitbucket) | 0.11278 | 1578.29270 |
+| Symfony\CompiledUrlMatcher       | benchSetup   | 178 (bitbucket) | 0.11318 | 1572.67404 |
+| Symfony\CompiledUrlMatcher       | benchLast    | 256 (avatax)    | 0.20184 | 1268.31984 |
+| Symfony\CompiledUrlMatcher       | benchLongest | 256 (avatax)    | 0.20283 | 1262.16545 |
+| Symfony\CompiledUrlMatcher       | benchAll     | 256 (avatax)    | 0.20796 | 1231.03483 |
+| Symfony\CompiledUrlMatcher       | benchSetup   | 256 (avatax)    | 0.20798 | 1230.85844 |
+| FastRoute\MarkBased              | benchLongest | 178 (bitbucket) | 0.18530 | 960.598901 |
+| FastRoute\GroupPosBased          | benchAll     | 178 (bitbucket) | 0.18532 | 960.511156 |
+| FastRoute\MarkBased              | benchAll     | 178 (bitbucket) | 0.18586 | 957.731409 |
+| FastRoute\CharCountBased         | benchSetup   | 178 (bitbucket) | 0.18731 | 950.306076 |
+| FastRoute\MarkBased              | benchLast    | 178 (bitbucket) | 0.18757 | 948.978566 |
+| FastRoute\GroupCountBased        | benchLongest | 178 (bitbucket) | 0.18883 | 942.661612 |
+| FastRoute\GroupPosBased          | benchSetup   | 178 (bitbucket) | 0.18908 | 941.415897 |
+| FastRoute\MarkBased              | benchSetup   | 178 (bitbucket) | 0.18942 | 939.710771 |
+| FastRoute\CharCountBased         | benchAll     | 178 (bitbucket) | 0.18978 | 937.946996 |
+| FastRoute\GroupCountBased        | benchSetup   | 178 (bitbucket) | 0.19035 | 935.120414 |
+| FastRoute\GroupPosBased          | benchLongest | 178 (bitbucket) | 0.19043 | 934.742248 |
+| FastRoute\GroupCountBased        | benchLast    | 178 (bitbucket) | 0.19265 | 923.936682 |
+| FastRoute\GroupCountBased        | benchAll     | 178 (bitbucket) | 0.19586 | 908.794032 |
+| FastRoute\CharCountBased         | benchLast    | 178 (bitbucket) | 0.19597 | 908.284339 |
+| FastRoute\GroupPosBased          | benchLast    | 178 (bitbucket) | 0.19639 | 906.337086 |
+| FastRoute\CharCountBased         | benchLongest | 178 (bitbucket) | 0.20327 | 875.690985 |
+| Symfony\UrlMatcher               | benchLongest | 178 (bitbucket) | 0.21644 | 822.390807 |
+| Symfony\UrlMatcher               | benchLongest | 256 (avatax)    | 0.36221 | 706.774106 |
+| Symfony\UrlMatcher               | benchLast    | 256 (avatax)    | 0.43078 | 594.266672 |
+| Symfony\UrlMatcher               | benchLast    | 178 (bitbucket) | 0.30823 | 577.486958 |
+| FastRoute\GroupPosBased          | benchLast    | 256 (avatax)    | 0.74525 | 343.507027 |
+| FastRoute\GroupCountBased        | benchLongest | 256 (avatax)    | 0.74923 | 341.682213 |
+| FastRoute\GroupCountBased        | benchLast    | 256 (avatax)    | 0.75289 | 340.021230 |
+| FastRoute\GroupPosBased          | benchLongest | 256 (avatax)    | 0.75337 | 339.805050 |
+| FastRoute\CharCountBased         | benchLast    | 256 (avatax)    | 0.75488 | 339.127198 |
+| FastRoute\MarkBased              | benchAll     | 256 (avatax)    | 0.75559 | 338.808956 |
+| FastRoute\CharCountBased         | benchLongest | 256 (avatax)    | 0.75903 | 337.273902 |
+| FastRoute\MarkBased              | benchLongest | 256 (avatax)    | 0.76020 | 336.751680 |
+| FastRoute\GroupCountBased        | benchSetup   | 256 (avatax)    | 0.76511 | 334.591153 |
+| FastRoute\MarkBased              | benchLast    | 256 (avatax)    | 0.76680 | 333.856259 |
+| FastRoute\CharCountBased         | benchSetup   | 256 (avatax)    | 0.76712 | 333.716181 |
+| FastRoute\MarkBased              | benchSetup   | 256 (avatax)    | 0.76818 | 333.255583 |
+| FastRoute\GroupCountBased        | benchAll     | 256 (avatax)    | 0.77735 | 329.322289 |
+| FastRoute\CharCountBased         | benchAll     | 256 (avatax)    | 0.78721 | 325.199126 |
+| FastRoute\GroupPosBased          | benchAll     | 256 (avatax)    | 0.78824 | 324.774591 |
+| FastRoute\GroupPosBased          | benchSetup   | 256 (avatax)    | 0.80266 | 318.939909 |
++----------------------------------+--------------+-----------------+---------+------------+
+```
 
 ## PHP 7.3
 ```
